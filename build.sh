@@ -22,6 +22,17 @@ else
 	echo "${CONFLINE} already exists in the local.conf file"
 fi
 
+RMWORKLINE="INHERIT += \"rm_work\""
+cat conf/local.conf | grep "${RMWORKLINE}" > /dev/null
+rmwork_info=$?
+
+if [ $rmwork_info -ne 0 ];then
+	echo "Append ${RMWORKLINE} in the local.conf file"
+	echo "${RMWORKLINE}" >> conf/local.conf
+	echo "RM_WORK_EXCLUDE += \"core-image-aesd aesd-assignments\"" >> conf/local.conf
+else
+	echo "${RMWORKLINE} already exists in the local.conf file"
+fi
 
 bitbake-layers show-layers | grep "meta-aesd" > /dev/null
 layer_info=$?
